@@ -1,0 +1,60 @@
+; Define forcefield parameters
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+1               2               yes             0.5     0.8333
+
+[ atomtypes ]
+; name      at.num  mass     charge ptype  sigma      epsilon
+OW           8      16.00    0.0000  A   ph_ow_sig      ph_ow_eps
+HW           1       1.008   0.0000  A   0.00000e+00  0.00000e+00
+
+[ moleculetype ]
+; molname   nrexcl
+SOL      2
+
+[ atoms ]
+; id  at type     res nr  res name  at name  cg nr  charge    mass
+  1   OW          1       SOL       OW       1      ph_ow_ch   16.00000
+  2   HW          1       SOL       HW1      1      ph_hw_ch   1.00800
+  3   HW          1       SOL       HW2      1      ph_hw_ch   1.00800
+
+#ifndef FLEXIBLE
+
+[ settles ]
+; OW  funct doh   dhh
+1       1   ph_doh   ph_dhh
+
+[ exclusions ]
+1  2  3
+2  1  3
+3  1  2
+
+#else
+
+[ bonds ]
+; i     j       funct   length  force_constant
+1       2       1       0.09572 502416.0   0.09572        502416.0 
+1       3       1       0.09572 502416.0   0.09572        502416.0 
+        
+
+[ angles ]
+; i     j       k       funct   angle   force_constant
+2       1       3       1       104.52  628.02      104.52  628.02  
+
+#endif
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+[ system ]
+; Name
+Built with Packmol
+
+[ molecules ]
+; Compound        #mols
+SOL              1024
